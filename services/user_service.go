@@ -17,8 +17,11 @@ import (
 
 func CreateUser(c *gin.Context) {
 	var user model.User
-	fmt.Println("User Creation Service")
-	c.BindJSON(&user)
+	// Bind the PostForm data to the User model
+	if err := c.ShouldBind(&user); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
 
 	// Check if title and body fields are not empty
 
@@ -38,13 +41,6 @@ func CreateUser(c *gin.Context) {
 		return
 
 	}
-	if user.Name == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Name Field is required",
-		})
-		return
-	}
-
 
 	hasUser := database.DB.Where("email = ?", user.Email).First(&user)
 	if hasUser.RowsAffected > 0 {
@@ -84,8 +80,11 @@ func CreateUser(c *gin.Context) {
 
 func UserLogin(c *gin.Context) {
 	var user model.User
-	c.BindJSON(&user)
-
+	// Bind the PostForm data to the User model
+	if err := c.ShouldBind(&user); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
 	password := user.Password
 	// Check email and password fields are not empty
 	// If empty return status code 400
@@ -219,4 +218,53 @@ func GetUserProfile(c *gin.Context) {
 		"status_code": http.StatusOK,
 		"user":        user,
 	})
+}
+
+func UpdateUserInfo(c *gin.Context) {
+
+	//Get post id from request
+	userId := c.Param("Id")
+
+	//Get model values from request
+	var user model.User
+	//Bind JSON body to model
+
+	c.BindJSON(&user)
+
+	if user.Email == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message":     "AuthorName Field is required",
+			"status_code": http.StatusBadRequest,
+		})
+		return
+
+	}
+
+	//Update Post
+	result := database.DB.Model(&user).Where("id = ?", userId).Updates(&user).Preload("Categorys").First(&user, userId)
+
+	// Return result as JSON response with status code 400 if there is an error or post not found in database
+	// RowsAffected is 0 if no record found
+
+	if result.Error != nil && result.RowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"status_code": http.StatusNotFound,
+			"message":     "User Id Not Found",
+		})
+		return
+	}
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": result.Error.Error(),
+		})
+		return
+	}
+
+	//Return response as JSON with status code 200
+	c.JSON(http.StatusAccepted, gin.H{
+		"message":     "Updated Successfully",
+		"status_code": http.StatusAccepted,
+		"user":        user,
+	})
+
 }

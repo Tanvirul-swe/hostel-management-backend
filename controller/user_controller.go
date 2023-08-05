@@ -11,6 +11,12 @@ func CreateUser(c *gin.Context) {
 
 }
 
+func UpdateUserInfo(c *gin.Context) {
+	// Call the service to get the posts
+	services.UpdateUserInfo(c)
+
+}
+
 func UserLogin(c *gin.Context) {
 	// Call the service to get the posts
 	services.UserLogin(c)

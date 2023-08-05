@@ -4,10 +4,10 @@ import "gorm.io/gorm"
 
 type User struct {
 	gorm.Model
-	Name     string  `json:"name"`
-	Email    string  `json:"email"`
-	Password string  `json:"password"`
-	Image    string  `json:"image"`
-	StudentId   string  `json:"student_id"`
-	Department    string  `json:"department"`
+	Name       string `form:"name" json:"name"`
+	Email      string `form:"email" json:"email"`
+	Password   string `form:"password" json:"password"`
+	Image      string `form:"image" json:"image"`
+	StudentId  string `form:"student_id" json:"student_id"`
+	Department string `form:"department" json:"department"`
 }
