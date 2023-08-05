@@ -1,0 +1,30 @@
+package controllers
+
+import (
+	"example.com/main/services"
+	"github.com/gin-gonic/gin"
+)
+
+func CreateHostel(c *gin.Context) {
+	// Create Hostel call create function in service class
+	services.CreateHostel(c)
+
+}
+
+func GetAllHostelInfo(c *gin.Context) {
+	// Create Hostel call create function in service class
+	services.GetAllHostelInfo(c)
+
+}
+
+func CreateHostelFacilites(c *gin.Context) {
+	// Create Hostel facilites call create function in service class
+	services.CreateHostelFacilites(c)
+
+}
+
+func GetHostelFacilites(c *gin.Context) {
+	// Create Hostel facilites call create function in service class
+	services.GetAllHostelFeatureInfo(c)
+
+}

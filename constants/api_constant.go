@@ -21,6 +21,9 @@ const (
 	// UserLoginSuccessMessage is the success message for user login
 	UserLoginSuccessMessage = "User Login Successfully"
 	// UserLoginFailedMessage is the failed message for user login
-	UserLoginFailedMessage = "User Login Failed"
-   StatusInternalServerError = "Internal Server Error"
+	UserLoginFailedMessage    = "User Login Failed"
+	StatusInternalServerError = "Internal Server Error"
+	CreateSuccessfully        = "Create Successfully"
+	CreateFail                = "Create Fail"
+	Successfully              = "Successfully"
 )
