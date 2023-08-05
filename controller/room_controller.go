@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// ************Hostel Section**********
 func CreateHostel(c *gin.Context) {
 	// Create Hostel call create function in service class
 	services.CreateHostel(c)
@@ -28,3 +29,19 @@ func GetHostelFacilites(c *gin.Context) {
 	services.GetAllHostelFeatureInfo(c)
 
 }
+
+//**********End Hostel Section*******
+
+//******Start Hostel Room Section*****
+
+func CreateRoom(c *gin.Context) {
+	services.CreateHostelRoom(c)
+
+}
+
+func GetSingleRoom(c *gin.Context) {
+	services.GetSingleRoomInfo(c)
+
+}
+
+//********End Hostel Room Section*********
