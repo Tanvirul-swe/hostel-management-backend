@@ -45,3 +45,9 @@ func GetSingleRoom(c *gin.Context) {
 }
 
 //********End Hostel Room Section*********
+
+// ***********Reserved Room*******
+func ReservedRoom(c *gin.Context) {
+	services.ReservedRoom(c)
+
+}

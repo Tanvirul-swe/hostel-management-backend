@@ -15,6 +15,7 @@ func main() {
 	// database.DB.AutoMigrate(&model.HostelInfo{})
 	// database.DB.AutoMigrate(&model.RoomImage{})
 	// database.DB.AutoMigrate(&model.Rooms{})
+	// database.DB.AutoMigrate(&model.ReservedRooms{})
 	r := gin.Default()
 	r.POST("/"+constants.ApiVersion+"/create-room", controllers.CreateRoom)
 	r.GET("/"+constants.ApiVersion+"/rooms/:id", controllers.GetSingleRoom)
@@ -27,6 +28,7 @@ func main() {
 	r.POST("/"+constants.ApiVersion+"/user-login", controllers.UserLogin)
 	r.GET("/"+constants.ApiVersion+"/validate", middleware.RequireAuth, controllers.Validate)
 	r.GET("/"+constants.ApiVersion+"/user-profile/:id", controllers.GetUserProfile)
+	r.POST("/"+constants.ApiVersion+"/reserve-room", controllers.ReservedRoom)
 
 	r.Run()
 }

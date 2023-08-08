@@ -8,6 +8,7 @@ import (
 	"example.com/main/database"
 	"example.com/main/model"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 // ********Hostel Start*******
@@ -270,3 +271,73 @@ func GetSingleRoomInfo(c *gin.Context) {
 }
 
 //********Room End*******
+
+func ReservedRoom(c *gin.Context) {
+	var reserved model.ReservedRooms
+	var user model.User
+	var room model.Rooms
+	// Bind the PostForm data to the ReservedRooms model
+	if err := c.ShouldBind(&reserved); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	if reserved.UserId == 0 {
+		c.JSON(400, gin.H{
+			"message":     "User Id  field is required",
+			"status_code": http.StatusBadRequest,
+		})
+		return
+
+	}
+	if reserved.RoomId == 0 {
+		c.JSON(400, gin.H{
+			"message":     "Room  field is required",
+			"status_code": http.StatusBadRequest,
+		})
+		return
+
+	}
+	// Check user ID Exist or not
+	if err := database.DB.First(&user, reserved.UserId).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			c.JSON(400, gin.H{
+				"message":     "User ID does not exist",
+				"status_code": http.StatusBadRequest,
+			})
+			return
+		} else {
+			fmt.Println("Error:", err)
+		}
+
+	}
+	// Check Room ID Exist or not
+	if err1 := database.DB.First(&room, reserved.RoomId).Error; err1 != nil {
+		if err1 == gorm.ErrRecordNotFound {
+			c.JSON(400, gin.H{
+				"message":     "Room ID does not exist",
+				"status_code": http.StatusBadRequest,
+			})
+			return
+		} else {
+			fmt.Println("Error:", err1)
+		}
+	}
+
+	result := database.DB.Create(&reserved)
+
+	// Return result as JSON response with status code 400 if there is an error
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message":     "Faill to Reseved Room",
+			"status_code": http.StatusInternalServerError,
+		})
+		return
+	}
+
+	//Return response as JSON with status code 201
+	c.JSON(http.StatusCreated, gin.H{
+		"message":     constants.CreateSuccessfully,
+		"status_code": http.StatusCreated,
+	})
+}
