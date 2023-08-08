@@ -16,6 +16,8 @@ func main() {
 	// database.DB.AutoMigrate(&model.RoomImage{})
 	// database.DB.AutoMigrate(&model.Rooms{})
 	// database.DB.AutoMigrate(&model.ReservedRooms{})
+	// database.DB.AutoMigrate(&model.PaymentHistory{})
+
 	r := gin.Default()
 	r.POST("/"+constants.ApiVersion+"/create-room", controllers.CreateRoom)
 	r.GET("/"+constants.ApiVersion+"/rooms/:id", controllers.GetSingleRoom)
@@ -29,6 +31,8 @@ func main() {
 	r.GET("/"+constants.ApiVersion+"/validate", middleware.RequireAuth, controllers.Validate)
 	r.GET("/"+constants.ApiVersion+"/user-profile/:id", controllers.GetUserProfile)
 	r.POST("/"+constants.ApiVersion+"/reserve-room", controllers.ReservedRoom)
+	r.POST("/"+constants.ApiVersion+"/create-payment", controllers.CreatePayment)
+	r.GET("/"+constants.ApiVersion+"/payment-history/:id", controllers.GetPaymentHistory)
 
 	r.Run()
 }
