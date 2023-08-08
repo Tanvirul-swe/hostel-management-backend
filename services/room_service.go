@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"net/http"
 
 	"example.com/main/constants"
@@ -239,9 +240,10 @@ func CreateHostelRoom(c *gin.Context) {
 // Get All Room details list
 func GetSingleRoomInfo(c *gin.Context) {
 	id := c.Param("id")
+	fmt.Println("Room Id", id)
 	var roomInfo model.HostelInfo
 	//Get all the hostel list
-	result := database.DB.Model(model.HostelInfo{}).Preload("HostelFacilites").Preload("Rooms").Where("ID = ?", id).Find(&roomInfo)
+	result := database.DB.Model(model.HostelInfo{}).Preload("HostelFacilites").Preload("Rooms", "ID = ?", id).Find(&roomInfo)
 
 	// Return result as JSON response with status code 400 if there is an error
 	if result.Error != nil {
