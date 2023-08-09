@@ -48,6 +48,60 @@ func CreateHostel(c *gin.Context) {
 	})
 }
 
+func CreateHostelReview(c *gin.Context) {
+	var review model.Reviews
+	// Bind the PostForm data to the User model
+	if err := c.ShouldBind(&review); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Check if title and body fields are not empty
+
+	if review.HostelId == 0 {
+		c.JSON(400, gin.H{
+			"message":     "Hostel  Id field is required",
+			"status_code": http.StatusBadRequest,
+		})
+		return
+
+	}
+
+	if review.UserId == 0 {
+		c.JSON(400, gin.H{
+			"message":     "User  Id field is required",
+			"status_code": http.StatusBadRequest,
+		})
+		return
+
+	}
+
+	if review.Rate == 0 {
+		c.JSON(400, gin.H{
+			"message":     "Rate field is required",
+			"status_code": http.StatusBadRequest,
+		})
+		return
+
+	}
+
+	result := database.DB.Create(&review)
+
+	// Return result as JSON response with status code 400 if there is an error
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message":     "Faill to create review",
+			"status_code": http.StatusInternalServerError,
+		})
+		return
+	}
+	//Return response as JSON with status code 201
+	c.JSON(http.StatusCreated, gin.H{
+		"message":     constants.CreateSuccessfully,
+		"status_code": http.StatusCreated,
+	})
+}
+
 // Get All hostel list
 func GetAllHostelInfo(c *gin.Context) {
 	var hostelList []model.HostelInfo
@@ -244,7 +298,7 @@ func GetSingleRoomInfo(c *gin.Context) {
 	fmt.Println("Room Id", id)
 	var roomInfo model.HostelInfo
 	//Get all the hostel list
-	result := database.DB.Model(model.HostelInfo{}).Preload("HostelFacilites").Preload("Rooms", "ID = ?", id).Find(&roomInfo)
+	result := database.DB.Model(model.HostelInfo{}).Preload("HostelFacilites").Preload("Reviews.User").Preload("Rooms", "ID = ?", id).Find(&roomInfo)
 
 	// Return result as JSON response with status code 400 if there is an error
 	if result.Error != nil {
@@ -266,7 +320,7 @@ func GetSingleRoomInfo(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message":     constants.Successfully,
 		"status_code": 200,
-		"data":        roomInfo,
+		"data":        roomInfo.Reviews,
 	})
 }
 

@@ -12,6 +12,13 @@ func CreateHostel(c *gin.Context) {
 
 }
 
+// Hostel review create
+func CreateHostelReview(c *gin.Context) {
+	// Create review call create function in service class
+	services.CreateHostelReview(c)
+
+}
+
 func GetAllHostelInfo(c *gin.Context) {
 	// Create Hostel call create function in service class
 	services.GetAllHostelInfo(c)

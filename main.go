@@ -17,8 +17,10 @@ func main() {
 	// database.DB.AutoMigrate(&model.Rooms{})
 	// database.DB.AutoMigrate(&model.ReservedRooms{})
 	// database.DB.AutoMigrate(&model.PaymentHistory{})
+	// database.DB.AutoMigrate(&model.Reviews{})
 
 	r := gin.Default()
+	r.POST("/"+constants.ApiVersion+"/create-review", controllers.CreateHostelReview)
 	r.POST("/"+constants.ApiVersion+"/create-room", controllers.CreateRoom)
 	r.GET("/"+constants.ApiVersion+"/rooms/:id", controllers.GetSingleRoom)
 	r.POST("/"+constants.ApiVersion+"/create-hostel-feature", controllers.CreateHostelFacilites)
