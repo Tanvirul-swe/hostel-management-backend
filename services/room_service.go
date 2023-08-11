@@ -297,7 +297,6 @@ func GetSingleRoomInfo(c *gin.Context) {
 	id := c.Param("id")
 	fmt.Println("Room Id", id)
 	var roomInfo model.HostelInfo
-	//Get all the hostel list
 	result := database.DB.Model(model.HostelInfo{}).Preload("HostelFacilites").Preload("Reviews.User").Preload("Rooms", "ID = ?", id).Find(&roomInfo)
 
 	// Return result as JSON response with status code 400 if there is an error
@@ -320,7 +319,7 @@ func GetSingleRoomInfo(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message":     constants.Successfully,
 		"status_code": 200,
-		"data":        roomInfo.Reviews,
+		"data":        roomInfo,
 	})
 }
 
