@@ -39,8 +39,8 @@ jobs:
     # Deploy
     - name: Deploy via CloudFlare Workers
       env:
-        CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
-        CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       run: |
         npm install wrangler --save-dev
         npx wrangler deploy [main.go]

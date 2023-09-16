@@ -7,4 +7,3 @@ zone_id = ""
 
 [site]
 bucket = "/"
-entry-point = "workers-site"
