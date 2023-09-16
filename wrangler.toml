@@ -1,5 +1,5 @@
 name = "nodematiclabs"
-main = "/main.go"
+main = "./main.go"
 type = "webpack"
 workers_dev = true
 route = ""
