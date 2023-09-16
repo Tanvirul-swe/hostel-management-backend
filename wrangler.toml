@@ -1,7 +1,7 @@
 name = "nodematiclabs"
 main = "hostel-management-backend/main.go"
 type = "webpack"
-workers_dev = true
+workers_dev = false
 route = ""
 zone_id = ""
 
