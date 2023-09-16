@@ -1,7 +1,13 @@
 name = "nodematiclabs"
 main = "hostel-management-backend/main.go"
-type = "go"
 workers_dev = false
 
-[site]
-bucket = "/"
+[main.modules]
+  [main.modules."hostel-management-backend"]
+    path = "hostel-management-backend"
+    bucket = "hostel-management-backend"
+    command = "go run main.go"
+    env = {
+      PORT = "8080"
+    }
+bucket = "hostel-management-backend"
