@@ -43,8 +43,8 @@ jobs:
         CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       run: |
         npm install wrangler --save-dev
-        npx wrangler deploy [hostel-management-backend/main.go]
-        wrangler publish [hostel-management-backend/main.go]
+        npx wrangler deploy [main.go]
+        wrangler publish [main.go]
 
 
   
