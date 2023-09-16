@@ -31,6 +31,16 @@ func CreateHostelFacilites(c *gin.Context) {
 
 }
 
+// Update Hostel facilites call create function in service class
+func UpdateHostelFacilites(c *gin.Context) {
+	services.UpdateHostelFacilites(c)
+}
+
+// Delete Hostel facilites call create function in service class
+func DeleteHostelFacilites(c *gin.Context) {
+	services.DeleteHostelFacilites(c)
+}
+
 func GetHostelFacilites(c *gin.Context) {
 	// Create Hostel facilites call create function in service class
 	services.GetAllHostelFeatureInfo(c)
@@ -48,6 +58,12 @@ func CreateRoom(c *gin.Context) {
 
 func GetSingleRoom(c *gin.Context) {
 	services.GetSingleRoomInfo(c)
+
+}
+
+// Get All Rooms By Hostel Id
+func GetAllRoomsByHostelId(c *gin.Context) {
+	services.GetAllRoomsById(c)
 
 }
 

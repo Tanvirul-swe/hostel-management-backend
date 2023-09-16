@@ -161,6 +161,108 @@ func CreateHostelFacilites(c *gin.Context) {
 	})
 }
 
+// Update Hostel Facilites
+func UpdateHostelFacilites(c *gin.Context) {
+	featureId := c.Param("id")
+	fmt.Println("Feature Id", featureId)
+	var facilites model.HostelFacilites
+	// Bind the PostForm data to the Hostel Facilites model
+	if err := c.ShouldBind(&facilites); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Check if title and body fields are not empty
+
+	if facilites.FeatureName == "" {
+		c.JSON(400, gin.H{
+			"message":     "Feature  field is required",
+			"status_code": http.StatusBadRequest,
+		})
+		return
+
+	}
+	if facilites.HostelId == 0 {
+		c.JSON(400, gin.H{
+			"message":     "Hostel Id  field is required",
+			"status_code": http.StatusBadRequest,
+		})
+		return
+	}
+	if featureId == "" {
+		c.JSON(400, gin.H{
+			"message":     "Feature Id  field is required",
+			"status_code": http.StatusBadRequest,
+		})
+		return
+
+	}
+
+	result := database.DB.Model(&facilites).Where("id = ?", featureId).Updates(&facilites)
+
+	// Return result as JSON response with status code 400 if there is an error
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message":     "Faill to update Facilites",
+			"status_code": http.StatusInternalServerError,
+		})
+		return
+	}
+
+	//Return response as JSON with status code 201
+	c.JSON(http.StatusCreated, gin.H{
+		"message":     constants.UpdateSuccessfully,
+		"status_code": http.StatusOK,
+	})
+}
+
+// Delete Hostel Facilites
+func DeleteHostelFacilites(c *gin.Context) {
+	featureId := c.Param("id")
+	fmt.Println("Feature Id", featureId)
+	var facilites model.HostelFacilites
+	// Bind the PostForm data to the Hostel Facilites model
+	if err := c.ShouldBind(&facilites); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Check if title and body fields are not empty
+
+	if facilites.HostelId == 0 {
+		c.JSON(400, gin.H{
+			"message":     "Hostel Id  field is required",
+			"status_code": http.StatusBadRequest,
+		})
+		return
+	}
+	if featureId == "" {
+		c.JSON(400, gin.H{
+			"message":     "Feature Id  field is required",
+			"status_code": http.StatusBadRequest,
+		})
+		return
+
+	}
+
+	result := database.DB.Model(&facilites).Where("id = ?", featureId).Delete(&facilites)
+
+	// Return result as JSON response with status code 400 if there is an error
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message":     "Faill to Delete Facilites",
+			"status_code": http.StatusInternalServerError,
+		})
+		return
+	}
+
+	//Return response as JSON with status code 201
+	c.JSON(http.StatusCreated, gin.H{
+		"message":     constants.Successfully,
+		"status_code": http.StatusOK,
+	})
+}
+
 // Get All hostel  feature list
 func GetAllHostelFeatureInfo(c *gin.Context) {
 	var facilites []model.HostelFacilites
@@ -320,6 +422,29 @@ func GetSingleRoomInfo(c *gin.Context) {
 		"message":     constants.Successfully,
 		"status_code": 200,
 		"data":        roomInfo,
+	})
+}
+
+// Get All Rooms By Hostel Id
+func GetAllRoomsById(c *gin.Context) {
+	hostelId := c.Param("id")
+	fmt.Println("Hostel Id", hostelId)
+	var roomList []model.Rooms
+	//Get all the hostel list
+	result := database.DB.Model(model.Rooms{}).Where("hostel_id = ?", hostelId).Find(&roomList)
+	// Return result as JSON response with status code 400 if there is an error
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message":     "Fetching Failed",
+			"status_code": http.StatusInternalServerError,
+		})
+		return
+	}
+	//Return response as JSON with status code 200
+	c.JSON(http.StatusOK, gin.H{
+		"message":     constants.Successfully,
+		"status_code": 200,
+		"data":        roomList,
 	})
 }
 

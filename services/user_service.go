@@ -268,3 +268,37 @@ func UpdateUserInfo(c *gin.Context) {
 	})
 
 }
+
+// Get User Booked Room Details
+func GetBookedRoomByUsersId(c *gin.Context) {
+	var rooms []model.Rooms
+	// Get user id from request params
+	id := c.Param("id")
+	// Find user by id in database using GORM ORM and store result in user variable
+	fmt.Println("User ID: ", id)
+
+	result := database.DB.Model(&rooms).Where("user_id = ?", id).Preload("ReservedRooms").Preload("RoomImage").Find(&rooms)
+	// Return result as JSON response with status code 400 if there is an error
+	if result.Error != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message":     constants.UserNotFoundMessage,
+			"status_code": http.StatusBadRequest,
+		})
+		return
+	}
+	if result.RowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message":     constants.UserNotFoundMessage,
+			"status_code": http.StatusNotFound,
+		})
+		return
+	}
+
+	//Return response as JSON with status code 200
+	c.JSON(http.StatusOK, gin.H{
+		"message":     "User Profile",
+		"status_code": http.StatusOK,
+		"user":        rooms,
+	})
+
+}

@@ -26,4 +26,12 @@ const (
 	CreateSuccessfully        = "Create Successfully"
 	CreateFail                = "Create Fail"
 	Successfully              = "Successfully"
+	Failed                    = "Failed"
+	NotFound                  = "Not Found"
+	Unauthorized              = "Unauthorized"
+	UnprocessableEntity       = "Unprocessable Entity"
+	InternalServerError       = "Internal Server Error"
+	InternalServerErrorMsg    = "Internal Server Error"
+	InvalidToken              = "Invalid Token"
+	UpdateSuccessfully        = "Update Successfully"
 )

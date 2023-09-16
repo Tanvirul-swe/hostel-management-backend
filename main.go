@@ -18,8 +18,7 @@ func main() {
 	// database.DB.AutoMigrate(&model.ReservedRooms{})
 	// database.DB.AutoMigrate(&model.PaymentHistory{})
 	// database.DB.AutoMigrate(&model.Reviews{})
-	
-   
+
 	r := gin.Default()
 	r.POST("/"+constants.ApiVersion+"/create-review", controllers.CreateHostelReview)
 	r.POST("/"+constants.ApiVersion+"/create-room", controllers.CreateRoom)
@@ -36,6 +35,10 @@ func main() {
 	r.POST("/"+constants.ApiVersion+"/reserve-room", controllers.ReservedRoom)
 	r.POST("/"+constants.ApiVersion+"/create-payment", controllers.CreatePayment)
 	r.GET("/"+constants.ApiVersion+"/payment-history/:id", controllers.GetPaymentHistory)
+	r.POST("/"+constants.ApiVersion+"/update-feature/:id", controllers.UpdateHostelFacilites)
+	r.POST("/"+constants.ApiVersion+"/delete-feature/:id", controllers.DeleteHostelFacilites)
+	r.GET("/"+constants.ApiVersion+"/hostel-rooms/:id", controllers.GetAllRoomsByHostelId)
+	r.GET("/"+constants.ApiVersion+"/booked-room/:id", controllers.GetBookedRoomByUserId)
 
 	r.Run()
 }

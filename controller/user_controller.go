@@ -33,3 +33,9 @@ func GetUserProfile(c *gin.Context) {
 	// Call the service to get the posts
 	services.GetUserProfile(c)
 }
+
+// Get User Booked Room Details
+func GetBookedRoomByUserId(c *gin.Context) {
+	// Call the service to get the posts
+	services.GetBookedRoomByUsersId(c)
+}
