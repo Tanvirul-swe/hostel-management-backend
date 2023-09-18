@@ -28,7 +28,7 @@ func main() {
 	r.POST("/"+constants.ApiVersion+"/create-hostel", controllers.CreateHostel)
 	r.GET("/"+constants.ApiVersion+"/hostel-info", controllers.GetAllHostelInfo)
 	r.POST("/"+constants.ApiVersion+"/create-user", controllers.CreateUser)
-	r.PUT("/"+constants.ApiVersion+"/update-user/:Id", controllers.UpdateUserInfo)
+	r.PUT("/"+constants.ApiVersion+"/update-user/:id", controllers.UpdateUserInfo)
 	r.POST("/"+constants.ApiVersion+"/user-login", controllers.UserLogin)
 	r.GET("/"+constants.ApiVersion+"/validate", middleware.RequireAuth, controllers.Validate)
 	r.GET("/"+constants.ApiVersion+"/user-profile/:id", controllers.GetUserProfile)

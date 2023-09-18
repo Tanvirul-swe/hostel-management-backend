@@ -223,13 +223,15 @@ func GetUserProfile(c *gin.Context) {
 func UpdateUserInfo(c *gin.Context) {
 
 	//Get post id from request
-	userId := c.Param("Id")
+	userId := c.Param("id")
 
 	//Get model values from request
 	var user model.User
 	//Bind JSON body to model
-
-	c.BindJSON(&user)
+	if err := c.ShouldBind(&user); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
 
 	if user.Email == "" {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -241,7 +243,7 @@ func UpdateUserInfo(c *gin.Context) {
 	}
 
 	//Update Post
-	result := database.DB.Model(&user).Where("id = ?", userId).Updates(&user).Preload("Categorys").First(&user, userId)
+	result := database.DB.Model(&user).Where("id = ?", userId).Updates(&user).First(&user, userId)
 
 	// Return result as JSON response with status code 400 if there is an error or post not found in database
 	// RowsAffected is 0 if no record found
