@@ -5,19 +5,20 @@ import (
 	controllers "example.com/main/controller"
 	"example.com/main/database"
 	"example.com/main/middleware"
+	"example.com/main/model"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	database.Init()
-	// database.DB.AutoMigrate(&model.User{})
-	// database.DB.AutoMigrate(&model.HostelFacilites{})
-	// database.DB.AutoMigrate(&model.HostelInfo{})
-	// database.DB.AutoMigrate(&model.RoomImage{})
-	// database.DB.AutoMigrate(&model.Rooms{})
-	// database.DB.AutoMigrate(&model.ReservedRooms{})
-	// database.DB.AutoMigrate(&model.PaymentHistory{})
-	// database.DB.AutoMigrate(&model.Reviews{})
+	database.DB.AutoMigrate(&model.User{})
+	database.DB.AutoMigrate(&model.HostelFacilites{})
+	database.DB.AutoMigrate(&model.HostelInfo{})
+	database.DB.AutoMigrate(&model.RoomImage{})
+	database.DB.AutoMigrate(&model.Rooms{})
+	database.DB.AutoMigrate(&model.ReservedRooms{})
+	database.DB.AutoMigrate(&model.PaymentHistory{})
+	database.DB.AutoMigrate(&model.Reviews{})
 
 	r := gin.Default()
 	r.POST("/"+constants.ApiVersion+"/create-review", controllers.CreateHostelReview)
