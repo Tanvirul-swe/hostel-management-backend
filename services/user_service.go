@@ -276,9 +276,8 @@ func GetBookedRoomByUsersId(c *gin.Context) {
 	id := c.Param("id")
 	// Find user by id in database using GORM ORM and store result in user variable
 	fmt.Println("User ID: ", id)
-
-	result := database.DB.Model(&rooms).Where("user_id = ?", id).Preload("ReservedRooms").Preload("RoomImage").Find(&rooms)
-	// Return result as JSON response with status code 400 if there is an error
+	// Get Specific User Booked Rooms Information
+	result := database.DB.Joins("JOIN reserved_rooms ON reserved_rooms.room_id = rooms.id").Find(&rooms)
 	if result.Error != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message":     constants.UserNotFoundMessage,
@@ -286,19 +285,12 @@ func GetBookedRoomByUsersId(c *gin.Context) {
 		})
 		return
 	}
-	if result.RowsAffected == 0 {
-		c.JSON(http.StatusNotFound, gin.H{
-			"message":     constants.UserNotFoundMessage,
-			"status_code": http.StatusNotFound,
-		})
-		return
-	}
 
 	//Return response as JSON with status code 200
 	c.JSON(http.StatusOK, gin.H{
-		"message":     "User Profile",
+		"message":     "User Booked Rooms",
 		"status_code": http.StatusOK,
-		"user":        rooms,
+		"room":        rooms,
 	})
 
 }
