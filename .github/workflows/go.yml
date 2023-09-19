@@ -43,8 +43,10 @@ jobs:
         CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       run: |
         npm install wrangler --save-dev
-        npx wrangler deploy 
-        wrangler publish  # publish to production
+        wrangler build
+        wrangler publish
+        # npx wrangler deploy 
+        # wrangler publish  # publish to production
 
 
   
