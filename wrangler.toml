@@ -1,7 +1,4 @@
-name = "nodematiclabs"
-main = "hostel-management-backend/main.go"
-workers_dev = false
+name = "my-worker"
+main = "./main.go"
+workers_dev = true
 
-[hostel-management-backend]
-
-bucket = "hostel-management-backend"
